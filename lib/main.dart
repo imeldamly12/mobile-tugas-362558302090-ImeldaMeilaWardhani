@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'modul_02/Studi kasus/ruang_praktikum.dart'; // Sesuaikan jalur impor jika diperlukan
+import 'pages/home_pages.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const KantinApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class KantinApp extends StatelessWidget {
+  const KantinApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Aplikasi Praktikum Poliwangi',
       debugShowCheckedModeBanner: false,
+      title: 'Kantin Kampus',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
       ),
-      home: const RuangPraktikumScreen(),
+      home: const HomePage(),
     );
   }
 }

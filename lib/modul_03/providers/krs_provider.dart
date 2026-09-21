@@ -1,21 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/krs_course.dart';
 
-// StateNotifier untuk mengelola daftar KRS yang diambil mahasiswa
-class KrsNotifier extends StateNotifier<List<KrsCourse>> {
-  KrsNotifier() : super(KrsCourse.getInitialCourses());
+class KrsNotifier extends Notifier<List<KrsCourse>> {
+  @override
+  List<KrsCourse> build() {
+    return KrsCourse.getInitialCourses();
+  }
 
-  // Menambah mata kuliah ke dalam KRS dengan validasi duplikasi & kuota SKS
+  // Menambahkan mata kuliah ke KRS
   bool tambahMataKuliah(KrsCourse course) {
-    // 1. Cek duplikasi kode mata kuliah
-    final exists = state.any((c) => c.code.toUpperCase() == course.code.toUpperCase());
-    if (exists) return false;
+    // Cek apakah kode mata kuliah sudah ada
+    final exists = state.any(
+      (c) => c.code.toUpperCase() == course.code.toUpperCase(),
+    );
 
-    // 2. Cek batas maksimal 24 SKS per semester
-    if (totalSks + course.sks > 24) return false;
+    if (exists) {
+      return false;
+    }
 
-    // 3. Emit state baru secara immutable
+    // Maksimal 24 SKS
+    if (totalSks + course.sks > 24) {
+      return false;
+    }
+
+    // Membuat state baru
     state = [...state, course];
+
     return true;
   }
 
@@ -24,17 +35,27 @@ class KrsNotifier extends StateNotifier<List<KrsCourse>> {
     state = state.where((c) => c.code != code).toList();
   }
 
-  // Menghitung total SKS saat ini
-  int get totalSks => state.fold(0, (sum, c) => sum + c.sks);
+  // Menghitung total SKS
+  int get totalSks {
+    return state.fold(
+      0,
+      (sum, course) => sum + course.sks,
+    );
+  }
 }
 
-// Provider global untuk KRS
-final krsProvider = StateNotifierProvider<KrsNotifier, List<KrsCourse>>((ref) {
-  return KrsNotifier();
-});
+// Provider utama untuk daftar KRS
+final krsProvider =
+    NotifierProvider<KrsNotifier, List<KrsCourse>>(
+  KrsNotifier.new,
+);
 
-// Provider terkomputasi (computed provider) untuk total SKS
+// Provider untuk menghitung total SKS
 final totalSksProvider = Provider<int>((ref) {
   final courses = ref.watch(krsProvider);
-  return courses.fold(0, (sum, c) => sum + c.sks);
+
+  return courses.fold(
+    0,
+    (sum, course) => sum + course.sks,
+  );
 });
