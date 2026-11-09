@@ -1,0 +1,49 @@
+KONTEKS:
+Project menggunakan Flutter dan Dart sesuai versi yang
+terpasang pada lingkungan pengembangan.
+
+Project sudah memiliki fitur Login & Session pada Modul 06.
+
+File yang berkaitan:
+- lib/modul_06/screens/login_screen.dart
+- lib/modul_06/services/auth_api.dart
+- lib/modul_06/services/sesi_memori.dart
+- lib/modul_06/models/sesi_pengguna.dart
+
+Gunakan struktur dan dependency yang sudah tersedia.
+
+TUGAS:
+Lakukan pemeriksaan dan perbaikan kode pada layar Login
+& Session agar memenuhi prinsip Responsible AI.
+
+Pastikan seluruh kondisi berikut tetap berjalan:
+- Memeriksa sesi.
+- Belum login.
+- Sedang memproses login.
+- Login berhasil.
+- Login gagal.
+- Logout.
+- Sesi kedaluwarsa.
+
+BATASAN:
+1. Jangan menggunakan null assertion (!) tanpa
+   pemeriksaan null yang benar.
+2. Semua controller yang dimiliki State wajib
+   memiliki dispose().
+3. Setiap proses asynchronous wajib memeriksa
+   mounted sebelum setState setelah await.
+4. Jangan menggunakan API Flutter deprecated.
+5. Jangan menyimpan API key atau kredensial
+   layanan eksternal secara langsung di kode.
+6. Gunakan debugPrint daripada print.
+7. Jangan menggunakan catch kosong.
+8. Jangan menghapus fitur yang sudah berjalan.
+9. Jangan mengubah alur autentikasi yang sudah benar.
+
+KRITERIA SELESAI:
+- flutter analyze tidak memiliki error.
+- Pengujian Modul 06 tetap lulus.
+- Pengujian Modul 09 lulus.
+- Tidak ada perubahan perilaku fitur login
+  yang sudah benar.
+- Setiap perubahan dapat dijelaskan.
